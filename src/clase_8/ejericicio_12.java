@@ -20,13 +20,13 @@ public class ejericicio_12 {
 		imprimir_matriz_int(matint);
 	}
 	
-	public static void posisicion (){
-	inicio=0
-	fin=0
-	cantidad = cantidad_sec_arreglo()
-	while((inicio < MAXCOLUMNAS) && (canitdad > 2)){
+	public static void posisicion (int [] matint, arr){
+	int inicio = 0;
+	int fin=0;
+	cantidad = cantidad_sec_arreglo();
+	while((inicio < MAXCOLUMNA) && (canitdad > 2)){
 		inicio = buscar_pos_inicio(arr, fin+1);
-		if (inicio <MAXCOLUMNAS){
+		if (inicio <MAXCOLUMNA){
 			fin = buscar_pos_final(arr, inicio);
 			cantidad--;	
 	}
@@ -52,19 +52,19 @@ public class ejericicio_12 {
 		}
 	}
 
-	public static void cantidad_sec_arr(){
+	public static void cantidad_sec_arr(int []){
 		
 	}
 	   public static int buscar_pos_inicio(int[]arr, int num){
 	        int pos = 0;
-	        while ((pos < MAXCOLUMNAS) && (arr[pos] != num)){
+	        while ((pos < MAXCOLUMNA) && (arr[pos] != num)){
 	            pos++;
 	            }
 	        System.out.println(pos);
 	        return pos;
 	    }
 	   public static int buscar_pos_final(int[]arr, int num){
-	        int pos = MAXCOLUMNAS-1;
+	        int pos = MAXCOLUMNA-1;
 	        while ((pos >= 0) && (arr[pos] != num)){
 	            pos--;
 	            }

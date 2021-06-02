@@ -1,0 +1,13 @@
+//metodo para cargar arreglos pares
+
+for (int col =0; col<MAXCOLUMNAS; col++){
+		sumacolumnas = obtener_suma_columna(matint, col);
+		if (sumacoluman % 2==0){
+			arr_pares_colum[pos]-col;
+			pos++;
+		}
+		
+		}
+		}
+	}
+
