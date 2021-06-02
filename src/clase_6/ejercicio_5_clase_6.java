@@ -26,7 +26,9 @@ public class ejercicio_5_clase_6 {
 		System.out.println();
 	}
 	
-	}public static void caracter_digito_letra(char caracter) {
+	}
+	
+	public static void caracter_digito_letra(char caracter) {
 		
 		
 		while ((caracter >='0') && (caracter <='9')||(caracter >='a')&&(caracter <='z')){

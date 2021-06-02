@@ -13,40 +13,64 @@ import java.io.InputStreamReader;
  */
 
 public class ejercicio_10_clase_6 {
-		public static void main(String[]args){
-			int entero;
-			int MAX = 10;
-			int MIN = 1;
-			char caracter;
-			BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+	public static void main(String[]args){
+		int entero = pedir_entero();
+		int MAX = 10;
+		int MIN = 1;
+		char caracter = pedir_caracter(caracter);
+		
 
-			try{
-				System.out.println("Ingrese un numero entero (Entre 1 y 10):");
-				entero = Integer.valueOf(entrada.readLine());
-					while((entero >= MIN) &&(entero <= MAX)){
-						System.out.println("Ingrese una letra: ");
-						caracter = entrada.readLine().charAt(0);
-							if((entero >='a')&&(entero <='z')){
-								System.out.println("letra minuscula");
-							}
-								else if((entero >='A') && (entero <='Z')){
-								System.out.println("letra mayuscula");
-								}
-							else if((entero >= 0 ) && (entero <= 9)){
-								System.out.println("digito");
-							}	
-							else{
-								System.out.println("otro");
-							}
-								
-							}
-					}
-				
-				
+		pedir_entero();
+		if((entero >= MIN) && (entero <= MAX)){
 			
-			catch(Exception exc){
-				System.out.println("");
-			}
+			pedir_caracter(caracter);
+			tipo_caracter();
+
 		}
 
-}
+	}
+	public static int pedir_entero(){
+		int entero = 0;
+		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+		try{
+			System.out.println("Ingrese un numero entero (Entre 1 y 10):");
+			entero = Integer.valueOf(entrada.readLine());
+		}
+
+
+		catch(Exception exc){
+			System.out.println("");
+		}
+		return entero;
+
+
+	}
+	public static char pedir_caracter(char caracter){
+		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+
+		try{
+			System.out.println("Ingrese una letra: ");
+			caracter = entrada.readLine().charAt(0);
+		}
+		catch(Exception exc){
+			System.out.println("");
+		}
+		return caracter;
+	}
+
+
+	public static void tipo_caracter(){
+		int entero= 0;
+		if((entero >='a')&&(entero <='z')){
+			System.out.println("letra minuscula");
+		}
+		else if((entero >='A') && (entero <='Z')){
+			System.out.println("letra mayuscula");
+		}
+		else if((entero >= 0 ) && (entero <= 9)){
+			System.out.println("digito");
+		}	
+		else{
+			System.out.println("otro");
+		}
+	}}

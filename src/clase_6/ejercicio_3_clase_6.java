@@ -8,24 +8,37 @@ import java.io.InputStreamReader;
  */
 	public class ejercicio_3_clase_6 {
 		public static void main(String[]args){
-			char caracter;
-			BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
-
-			try{
-				System.out.println("Ingrese un caracter letra minuscula: ");
-				caracter = entrada.readLine().charAt(0);
-					while((caracter >= 'a') && (caracter <= 'z')){
+			
+			char caracter = letra();
+			
+				while((caracter >= 'a') && (caracter <= 'z')){
 						imprimir_tabla_9 ();
-							System.out.println("Ingrese un caracter letra: ");
-							caracter = entrada.readLine().charAt(0);
+						System.out.println("Ingrese un caracter letra: ");
+				}
 						
-					}
 				
-			}
-			catch(Exception exc){
-				System.out.println("LA letra ingresada no es minuscula");
-			}
+				
+	
 		}
+		public static char letra(){
+			BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+			char caracter = 0;
+				try{
+					System.out.println("Ingrese un caracter letra minuscula: ");
+					 caracter = entrada.readLine().charAt(0);
+					
+				}
+				catch(Exception exc){
+					System.out.println("error");
+				}
+
+				//				return caracter;
+				return caracter;
+			}				
+			
+		
+
+		
 		
 		public static void imprimir_tabla_9(){
 			final int MAX= 10;
