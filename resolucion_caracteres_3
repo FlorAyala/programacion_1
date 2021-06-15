@@ -1,0 +1,117 @@
+/*
+Suponer que se tienen dos matrices A y B de secuencias (de caracteres letras minusculas separados por espacios) de tamanio MAXFIL x MAXCOL 
+(cada fila empieza y termina con caracteres espacios), que estan precargadas, y ademas se tiene/n el/los siguiente/s metodo/s (se supone que existe/n y esta/n implementado/s):
+
+ _un metodo que retorna cuantas repeticiones de una secuencia hay en un arreglo de secuencias (de caracteres letras minusculas separados por espacios) 
+ de tamanio MAXCOL (que empieza y termina con espacios), siendo que la secuencia se encuentra en otro arreglo (de caracteres letras minusculas separados por espacios) 
+ de tamanio MAXCOL (que empieza y termina con espacios), el cual solo tiene una secuencia.
+
+_un metodo que retorna el indice inicial de la secuencia cuya cantidad de vocales es la mayor de todas de un arreglo de secuencias (de caracteres letras minusculas separados por espacios) 
+de tamanio MAXCOL (que empieza y termina con espacios).
+
+Se pide realizar un programa completo que (sin utilizar arreglos o matrices auxiliares extras a las mencionadas, ni realizar declaraciones explícitas de las matrices):
+    _contenga la definicion de el/los encabezado/s de el/los metodo/s mencionado/s como preexistente/s que figura/n en el enunciado (excepto los de carga de datos en matrices, que solamente se invocan).
+    _en cada fila de A, si dicha fila tiene una unica secuencia y hay a lo sumo 30 repeticiones de la misma en dicha fila de B, reemplace la secuencia en A por la secuencia 
+    con mas vocales de dicha fila en B (la separacion previa entre secuencias debe mantenerse).
+*/
+
+class AldereteParcial {
+
+  public static final int MAXFIL = 10;
+  public static final int MAXCOL = 10;
+  public static final char SEPARADOR = ' ';
+  public static final int INVALIDO = -1;
+  public static final int MAXREPETICIONES = 30;
+  public static final int CANTSECUENCIAS = 1;
+
+  public static void main(String[] args) {
+    //declaraciones e inicializaciones...
+    for(int f = 0; f < MAXFIL; f++){
+      reemplazarUnicaSecuencia(matA[f], matB[f]);
+    }
+
+  }
+
+  public static void reemplazarUnicaSecuencia(char[] filaA, char[] filaB){
+    int inicioUnicaSecuencia = obtenerInicioUnicaSecuencia(filaA);
+    if(inicioUnicaSecuencia != INVALIDO){
+      int finUnicaSecuencia = obtenerFinSecuencia(filaA, inicioUnicaSecuencia);
+      if(obtenerRepeticionesDeSecuencia(filaB, filaA) <= MAXREPETICIONES){
+        int iniSecuenciaMayorCantVocales = obtenerInicioSecuenciaMayorCantidadVocales(filaB);
+        int finSecuenciaMayorCantVocales = obtenerFinSecuencia(filaB, iniSecuenciaMayorCantVocales);
+        reemplazar(filaA, inicioUnicaSecuencia, finUnicaSecuencia, filaB, iniSecuenciaMayorCantVocales, finSecuenciaMayorCantVocales);
+      }
+    }
+  }
+
+  public static void reemplazar(char[] arrOrigen, int iniOrigen, int finOrigen, char[] arrDestino, int iniDestino, int finDestino){
+    int tamOrigen = finOrigen - iniOrigen + 1;
+    int tamDestino = finDestino - iniDestino + 1;
+
+    if(tamOrigen > tamDestino){
+      correrADerecha(arrDestino, finDestino, tamOrigen - tamDestino);
+      copiar(arrOrigen, iniOrigen, arrDestino, iniDestino, tamOrigen);
+    } else if(tamDestino > tamOrigen){
+      copiar(arrOrigen, iniOrigen, arrDestino, iniDestino, tamOrigen);
+      correrAIzquierda(arrDestino, iniDestino + tamOrigen, tamDestino - tamOrigen);
+    }
+    
+    copiar(arrOrigen, iniOrigen, arrDestino, iniDestino, tamOrigen);
+  }
+  
+  public static void copiar (char[] origen, int iniOrigen, char[] destino, int iniDestino, int tamanioSecuencia){ //debería haber estado hecho previamente al examen
+    for(int i = 0; i < tamanioSecuencia; i++){
+      destino[iniDestino + i] = origen[iniOrigen + i];
+    }
+  }
+
+  public static void correrADerecha(char a[], int ini, int cant){//debería haber estado hecho previo al examen
+    for(int veces = cant; veces > 0; veces --)
+      for(int i = MAXCOL -1; i > ini; i--){
+        a[i] = a[i - 1];
+      }
+  }
+
+  public static void correrAIzquierda(char a[], int ini, int cant){//debería haber estado hecho previo al examen
+    for(int veces = cant; veces > 0; veces --)
+      for(int i = ini; i < MAXCOL - 1; i++){
+        a[i] = a[i + 1];
+      }
+  }
+
+  public static int obtenerInicioUnicaSecuencia(char [] fila){
+    int ini = 0, primerInicio = 0;
+    int fin = 0;
+    int cantSecuencias = 0;
+    while(ini < MAXCOL && cantSecuencias <= CANTSECUENCIAS){
+      ini = obtenerInicioSec(fila, fin + 1);
+      if(ini < MAXCOL){
+        primerInicio = ini;
+        cantSecuencias++;
+        fin = obtenerFinSecuencia(fila, ini);
+      }
+    }
+    if(cantSecuencias == CANTSECUENCIAS)
+      return primerInicio;
+    else return INVALIDO;
+  }
+
+  public static int obtenerInicioSec(char[] fila, int ini){ //debería haber estado hecho previamente al examen
+    int iterador = ini;
+    while(iterador < MAXCOL && fila[iterador] == SEPARADOR){
+      iterador++;
+    }
+    return iterador;
+  }
+
+  public static int obtenerFinSecuencia(char[] fila, int ini){ //debería haber estado hecho previamente al examen
+    int iterador = ini; 
+    while(iterador < MAXCOL && fila[iterador] != SEPARADOR){
+      iterador++;
+    }
+    return iterador - 1;
+  }
+
+  public static int obtenerRepeticionesDeSecuencia(char[] arr, char[] secuencia){ /*...*/}
+  public static int obtenerInicioSecuenciaMayorCantidadVocales(char[] arr){ /*...*/}
+}
