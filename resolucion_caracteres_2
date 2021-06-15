@@ -1,109 +1,110 @@
-/*																		
-Suponer que se tienen dos matrices A y B de secuencias (de caracteres digitos separados por espacios) de tamanio MAXFIL x MAXCOL (cada fila empieza y termina con caracteres espacios), 
-que estan precargadas, y ademas se tiene/n el/los siguiente/s metodo/s (se supone que existe/n y esta/n implementado/s):	
-																	
-_un metodo que permite obtener el indice inicial de la secuencia que mas se repite de un arreglo de secuencias (de caracteres digitos separados por espacios) de tamanio MAXCOL.																		
-_un metodo que retorna el indice inicial de la secuencia que tiene mas caracteres repetidos de un arreglo de secuencias (de caracteres digitos separados por espacios) de tamanio MAXCOL.																		
+/*
+  Suponer que se tienen dos matrices A y B de secuencias (de caracteres letras minusculas separados por espacios) 
+  de tamanio MAXFIL x MAXCOL (cada fila empieza y termina con caracteres espacios), que estan precargadas, y ademas se tiene/n el/los siguiente/s metodo/s (se supone que existe/n y esta/n implementado/s):
 
-Se pide realizar un programa que:																		
-_contenga la definicion de el/los encabezado/s de el/los metodo/s mencionado/s como preexistente/s que figura/n en el enunciado, y no realice declaraciones explícitas de las matrices y el/los arreglo/s.																		
-_en cada fila de A intercambie la secuencia que mas se repite de la fila por la secuencia con mas caracteres repetidos de dicha fila en B, si entre estas dos secuencias se cumple que la primera tiene mas vocales que la segunda (la separacion previa entre secuencias debe mantenerse).																		
-*/			
+  _un metodo que retorna el indice inicial de la secuencia que tiene mas caracteres repetidos de un arreglo de secuencias (de caracteres letras minusculas separados por espacios) 
+  de tamanio MAXCOL (que empieza y termina con espacios).
+
+  _un metodo que permite obtener el indice inicial de la secuencia que le sigue a la secuencia central (central porque justo al medio del arreglo esta parte de esa secuencia) 
+  de un arreglo de secuencias (de caracteres letras minusculas separados por espacios) de tamanio MAXCOL (que empieza y termina con espacios).
+
+  Se pide realizar un programa completo que (sin utilizar arreglos o matrices auxiliares extras a las mencionadas, ni realizar declaraciones explícitas de las matrices):
+      _contenga la definicion de el/los encabezado/s de el/los metodo/s mencionado/s como preexistente/s que figura/n en el enunciado (excepto los de carga de datos en matrices, que solamente se invocan).
+      _para cada fila de A elimine la secuencia con mas caracteres repetidos de la fila, si esta tiene cantidad par de vocales y ademas es igual a la secuencia que le sigue
+          a la secuencia central de dicha fila en B.
+  */
 
 
-public class AbbateParcial{
-    public static final int MAXFIL = 10;
-    public static final int MAXCOL = 10;
-    public static final char SEPARADOR = ' ';
-    
-    public static void main(String[] args){
-        //declaraciones e inicializaciones...
-        for(int fila = 0; fila < MAXFIL; fila++){
-            intercambiarSecuencias(A[fila], B[fila]);
-        }
-        
-    }
-    
-    public static void intercambiarSecuencias(char[] a, char[] b){
-        int iniA = obtenerInicioSecuenciaMasRepetida(a);
-        int iniB = obtenerInicioSecuenciaCaracteresMasRepetidos(b);
-        
-        int finA = obtenerFinSecuencia(a, iniA);
-        int finB = obtenerFinSecuencia(b, iniB);
+class AbdalaParcial {
 
-        if(tieneMasVocales(a, b, iniA, iniB, finA, finB)){
-            intercambiarSecuencias(a, b, iniA, iniB, finA, finB);
-        }
-    }
-    
-    public static boolean tieneMasVocales(char[] a, char[] b, int iniA, int iniB, int finA, int finB){
-        return cantVocales(a, iniA, iniB) > cantVocales(b, iniB, finB);
-    }
-    
-    public static int cantVocales(char[] a, int ini, int fin){//debería haber estado hecho previamente al examen
-        int cant = 0;
-        for(int i = ini; i <= fin; i++){
-            if(esVocal(a[i]))
-                cant++;
-        }
-        return cant;
-    }
-    
-    public static boolean esVocal(char a){//debería haber estado hecho previamente al examen
-        return esVocalMayuscula(a) || esVocalMinuscula(a);
-    }
-    
-    public static boolean esVocalMinuscula(char a){//debería haber estado hecho previamente al examen
-        return  a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u';
-    }
-    
-    public static boolean esVocalMayuscula(char a){//debería haber estado hecho previamente al examen
-        return  a == 'A' || a == 'E' || a == 'I' || a == 'O' || a == 'U';
-    }
-    
-    public static void intercambiarSecuencias(char[] a, char[] b, int iniA, int iniB, int finA, int finB){
+  public static final int MAXFIL = 10;
+  public static final int MAXCOL = 10;
+  public static final char SEPARADOR = ' ';
 
-        int tamA = finA - iniA + 1; 
-        int tamB = finB - iniB + 1;
-        
-        hacerCorrimientos(a, b, iniA, iniB, tamA, tamB);
-        
-        intercambiar(a, b, iniA, finA);
-      
-      	//luego correr a izquierda la más chica
+  public static void main(String[] args) {
+    //declaraciones e inicializaciones...
+    for(int f = 0; f < MAXFIL; f++){
+      eliminarSecuencias(matA[f], matB[f]);
     }
-    
-    public static void intercambiar(char[] a, char[] b, int ini, int fin){ //debería haber estado hecho previamente al examen
-        for(int iter = ini; iter <= fin; iter++){
-            char aux = a[iter];
-            a[iter] = b[iter];
-            b[iter] = aux;
-        }
+
+  }
+
+  public static void eliminarSecuencias(char [] filaA, char [] filaB){
+    int inicioSecuenciaABorrar = obtenerInicioSecuenciaConMasCaracteresRepetidos(filaA);
+    int finSecuenciaABorrar = obtenerFinSecuencia(filaA, inicioSecuenciaABorrar);
+
+    int inicioSecuenciaSiguienteACentral = obtenerInicioSecuenciaSiguienteACentral(filaB);
+    int finSecuenciaSiguienteACentral = obtenerFinSecuencia(filaB, inicioSecuenciaSiguienteACentral);
+
+    if(cantVocalesPar(filaA, inicioSecuenciaABorrar, finSecuenciaABorrar) && 
+       esIgual(filaA, inicioSecuenciaABorrar, finSecuenciaABorrar, filaB, inicioSecuenciaSiguienteACentral, finSecuenciaSiguienteACentral)){
+      eliminarSecuencia(filaA, inicioSecuenciaABorrar, finSecuenciaABorrar);
     }
-    
-    public static void hacerCorrimientos(char[] a, char[] b, int finA, int finB, int tamA, int tamB){
-        if(tamA > tamB){
-            correrADerecha(b, finB, tamA - tamB);
-        } else if(tamA < tamB){
-            correrADerecha(a, finA, tamB - tamA);
-        }
+  }
+  
+  
+  public static void eliminarSecuencia(char[] fila, int ini, int fin){ //debería haber estado hecho previo al examen
+    int veces = fin - ini + 1;
+    while(veces > 0){
+      correrAIzquierda(fila, ini, fin);
+      veces--;
     }
-    
-    public static void correrADerecha(char a[], int ini, int cant){//debería haber estado hecho previo al examen
-        for(int veces = cant; veces > 0; veces--)
-            for(int i = MAXCOL -1; i > ini; i--){
-                a[i] = a[i - 1];
-            }
+  }
+  
+  public static void correrAIzquierda(char[] fila, int ini, int fin){ //debería haber estado hecho previo al examen
+    for(int i = ini; i <= fin; i++){
+      fila[i] = fila[i+1];
     }
-    
-    public static int obtenerFinSecuencia(char[] a, int i){ //debería haber estado hecho previo al examen
-        int iterador = i;
-        while(iterador < MAXCOL && a[iterador] != SEPARADOR){
-            iterador++;
-        }
-        return iterador - 1;
+  }
+  
+  public static boolean esIgual(char[] filaA, int iniA, int finA, char[] filaB, int iniB, int finB){ //debería haber estado hecho previo al examen
+    if(finA - iniA != finB - iniB)
+      return false;
+
+    boolean igual = true;
+    int iteradorA = iniA;
+    int iteradorB = iniB;
+
+    while(iteradorA <= finA && igual){
+      igual = filaA[iteradorA] == filaB[iteradorB];
+      iteradorA++;
+      iteradorB++;
     }
-    
-    public static int obtenerInicioSecuenciaMasRepetida(char[] fil){/*...*/} //provisto
-    public static int obtenerInicioSecuenciaCaracteresMasRepetidos(char[] fil){/*...*/} //provisto
+    return igual;
+  }
+  
+  
+  public static int obtenerFinSecuencia(char[] a, int i){ //debería haber estado hecho previo al examen
+    int iterador = i;
+    while(iterador < MAXCOL && a[iterador] != SEPARADOR){
+      iterador++;
+    }
+    return iterador - 1;
+  }
+
+  public static boolean cantVocalesPar(char[] fila, int ini, int fin){ //debería haber estado hecho previo al examen
+    int cant = 0;
+    for(int i = ini; i <= fin; i++){
+      if(esVocal(fila[i]))
+        cant++;
+    }
+
+    return cant % 2 == 0;
+  }  
+
+  public static boolean esVocal(char a){//debería haber estado hecho previamente al examen
+    return esVocalMayuscula(a) || esVocalMinuscula(a);
+  }
+
+  public static boolean esVocalMinuscula(char a){//debería haber estado hecho previamente al examen
+    return  a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u';
+  }
+
+  public static boolean esVocalMayuscula(char a){//debería haber estado hecho previamente al examen
+    return  a == 'A' || a == 'E' || a == 'I' || a == 'O' || a == 'U';
+  }
+
+  public static int obtenerInicioSecuenciaSiguienteACentral(char [] arr){ /*...*/ } //provisto
+  public static int obtenerInicioSecuenciaConMasCaracteresRepetidos(char [] arr){ /*...*/ } //provisto
 }
+
