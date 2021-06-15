@@ -1,0 +1,88 @@
+/*
+Suponer que se tienen dos matrices A y B de secuencias (de caracteres letras minusculas separados por espacios) de tamanio MAXFIL x MAXCOL 
+(cada fila empieza y termina con caracteres espacios), que estan precargadas, y ademas se tiene/n el/los siguiente/s metodo/s (se supone que existe/n y esta/n implementado/s):
+        _un metodo que retorna el indice inicial de la secuencia que tiene mas caracteres repetidos de un arreglo de secuencias 
+        (de caracteres letras minusculas separados por espacios) de tamanio MAXCOL (que empieza y termina con espacios).
+Se pide realizar un programa completo que (sin utilizar arreglos o matrices auxiliares extras a las mencionadas, ni realizar declaraciones explícitas de las matrices):
+        _contenga la definicion de el/los encabezado/s de el/los metodo/s mencionado/s como preexistente/s que figura/n en el enunciado 
+        (excepto los de carga de datos en matrices, que solamente se invocan).
+        _para cada fila de A elimine de cada secuencia de la fila los primeros 6 caracteres que esten incluidos en la secuencia con mas caracteres repetidos que se encuentra de dicha fila en B.
+*/
+
+class AlvarezParcial {
+  public static final int MAXFIL = 10;
+  public static final int MAXCOL = 10;
+  public static final char SEPARADOR = ' ';
+  public static final int CANTCARACTERES = 6;
+
+  public static void main(String[] args){
+    //declaraciones e inicializaciones...
+    for(int fila = 0; fila < MAXFIL; fila++){
+      eliminarCaracteres(A[fila], B[fila]);
+    }
+
+  }
+
+  public static void eliminarCaracteres(char[] a, char[] b){
+    int ini = 0;
+    int fin = 0;
+    while(ini < MAXCOL){
+      ini = obtenerInicioSec(a, fin + 1);
+      if(ini < MAXCOL){
+        fin = obtenerFinSecuencia(a, ini);
+        eliminar(a, b, ini, fin);
+        fin = obtenerFinSecuencia(a, ini);
+      }
+    }
+  }
+
+  public static void eliminar(char[] a, char[] b, int ini, int fin){
+    int iniRepetidos = obtenerInicioSecuenciaConCaracteresRepetidos(b);
+    int finRepetidos = obtenerFinSecuencia(b, iniRepetidos);
+    int iterador = ini;
+    int cantCaracteresEliminados = 0;
+    while(iterador <= fin && cantCaracteresEliminados <= CANTCARACTERES){
+      if(estaEnSecuencia(b, iniRepetidos, finRepetidos, a[iterador])){
+        correrAIzquierda(a, iterador, 1);
+        cantCaracteresEliminados++;
+      } else iterador++;
+    }
+  }
+
+  public static boolean estaEnSecuencia(char[] arr, int ini, int fin, char elem){//debería haber estado hecho previo al examen
+    boolean encontrado = false;
+    int iterador = ini;
+    while(iterador <= fin && !encontrado){
+      encontrado = arr[iterador] == elem;
+      iterador++;
+    }
+    return encontrado;
+  }
+  
+  public static void correrAIzquierda(char a[], int ini, int cant){//debería haber estado hecho previo al examen
+    for(int veces = cant; veces > 0; veces --)
+      for(int i = ini; i < MAXCOL - 1; i++){
+        a[i] = a[i + 1];
+      }
+  }
+
+  public static int obtenerInicioSec(char[] fila, int ini){ //debería haber estado hecho previamente al examen
+    int iterador = ini;
+    while(iterador < MAXCOL && fila[iterador] == SEPARADOR){
+      iterador++;
+    }
+    return iterador;
+  }
+
+  public static int obtenerFinSecuencia(char[] fila, int ini){ //debería haber estado hecho previamente al examen
+    int iterador = ini; 
+    while(iterador < MAXCOL && fila[iterador] != SEPARADOR){
+      iterador++;
+    }
+    return iterador - 1;
+  }
+
+  public static int obtenerInicioSecuenciaConCaracteresRepetidos(char[] a){/*...*/}
+
+
+}
